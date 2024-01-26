@@ -80,11 +80,11 @@ app.post("/api/download", (req, res) => {
   });
 
   //let file = fs.readFileSync(path);
-  res.writeHead(200, {
-    "Content-Type": 'application/pdf',
-    "Content-Disposition": "attachment; filename=" + "'fileName'"
-});
-  res.download(path);
+  res.set({
+    'Content-Disposition': `attachment; filename='${"fileName"}'`,
+    'Content-Type': 'application/pdf',
+  });
+  pdfFile.pipe(res)
 
 
 
