@@ -30,8 +30,22 @@ app.use(function (req, res, next) {
 
 const port = process.env.PORT;
 
+let getUptime = () => {
+  let uptime = process.uptime();
+		let uptimeText;
+		if (uptime > 24 * 60 * 60) {
+			let uptimeDays = Math.floor(uptime / (24 * 60 * 60));
+			uptimeText = uptimeDays + " " + (uptimeDays === 1 ? "day" : "days");
+			let uptimeHours= Math.floor(uptime / (60 * 60)) - uptimeDays * 24;
+			if (uptimeHours) uptimeText += ", " + uptimeHours + " " + (uptimeHours === 1 ? "hour" : "hours");
+		} else {
+			uptimeText = Tools.toDurationString(uptime * 1000);
+		}
+    return uptimeText;
+}
+
 app.get("/", (req, res) => {
- res.send(`<h3> Assignment Buddy API <a href='https://github.com/ISenseAura/Assignment-Buddy-API/blob/main/README.md'> Documentation </a> <br> <small> Uptime : ${process.uptime()}</h3>`);
+ res.send(`<h3> Assignment Buddy API <a href='https://github.com/ISenseAura/Assignment-Buddy-API/blob/main/README.md'> Documentation </a> <br><br> <small> Uptime : ${getUptime()}</h3>`);
 });
 
 app.post("/api/generate", (req, res) => {
