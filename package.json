@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "git pull && forever start index.js",
-    "stop" : "forever stop index.js",
-    "restart" : "git pull && forever restart index.js"
+    "start": "git pull && forever start index.js",
+    "stop": "forever stop index.js",
+    "restart": "git pull && forever restart index.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.1.3",
     "dotenv": "^16.3.2",
     "express": "^4.18.2",
+    "js-helpertools": "^1.5.0",
     "md-to-pdf": "^5.2.4",
     "node-fetch": "^3.3.2",
     "openai": "^4.25.0"

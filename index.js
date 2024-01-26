@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 const Generator = require("./generator");
 const fs = require("fs");
 
+global.Tools = require("js-helpertools")
+
 
 const app = express();
 dotenv.config();
