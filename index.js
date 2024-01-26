@@ -70,6 +70,26 @@ app.post("/api/generate", (req, res) => {
   }
 });
 
+
+app.get("/api/download/:subject/:number", (req, res) => {
+  let { subject, number } = req.params;
+  let path = `./documents/${subject}/${subject + number}.pdf`;
+  let pdfFile = fs.createReadStream(path);
+  pdfFile.on("error", (err) => {
+    res.send({ success: false, data: "Assignment does not exist" });
+    return;
+  });
+
+  res.download(path);
+
+ /*
+
+  pdfFile.pipe(res);
+  */
+});
+
+
+
 app.post("/api/download", (req, res) => {
   let { subject, number } = req.body;
   let path = `./documents/${subject}/${subject + number}.pdf`;
@@ -84,9 +104,7 @@ app.post("/api/download", (req, res) => {
     'Content-Disposition': `attachment; filename='${"fileName"}'`,
     'Content-Type': 'application/octet-stream',
   });
-  pdfFile.pipe(res)
-
-
+  pdfFile.pipe(res);
 
  /*
 
