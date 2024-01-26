@@ -79,8 +79,13 @@ app.post("/api/download", (req, res) => {
     return;
   });
 
-
+  //let file = fs.readFileSync(path);
+  res.writeHead(200, {
+    "Content-Type": 'application/pdf',
+    "Content-Disposition": "attachment; filename=" + "'fileName'"
+});
   res.download(path);
+
 
 
  /*
