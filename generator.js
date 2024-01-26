@@ -32,6 +32,7 @@ let toPDF = async (path, cb) => {
   if (pdf) {
     fs.writeFileSync(path.replace(".md", ".pdf"), pdf.content);
     cb(path.replace(".md", ".pdf"));
+    console.log("Done...")
   } else {
     cb("-Error could not write PDF");
   }

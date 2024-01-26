@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
 const port = process.env.PORT;
 
 app.get("/", (req, res) => {
- res.send("<h3> Assignment Buddy API <a href='https://github.com/ISenseAura/Assignment-Buddy-API/blob/main/README.md'> Documentation </a></h3>");
+ res.send(`<h3> Assignment Buddy API <a href='https://github.com/ISenseAura/Assignment-Buddy-API/blob/main/README.md'> Documentation </a> <br> <small> Uptime : ${process.uptime()}</h3>`);
 });
 
 app.post("/api/generate", (req, res) => {
