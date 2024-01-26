@@ -82,7 +82,7 @@ app.post("/api/download", (req, res) => {
   //let file = fs.readFileSync(path);
   res.set({
     'Content-Disposition': `attachment; filename='${"fileName"}'`,
-    'Content-Type': 'application/pdf',
+    'Content-Type': 'application/octet-stream',
   });
   pdfFile.pipe(res)
 
