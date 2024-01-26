@@ -79,13 +79,22 @@ app.get("/api/download/:subject/:number", (req, res) => {
     res.send({ success: false, data: "Assignment does not exist" });
     return;
   });
-
   res.download(path);
+ // pdfFile.pipe(res);
+  
+});
 
- /*
-
+app.get("/api/view/:subject/:number", (req, res) => {
+  let { subject, number } = req.params;
+  let path = `./documents/${subject}/${subject + number}.pdf`;
+  let pdfFile = fs.createReadStream(path);
+  pdfFile.on("error", (err) => {
+    res.send({ success: false, data: "Assignment does not exist" });
+    return;
+  });
+  //res.download(path);
   pdfFile.pipe(res);
-  */
+  
 });
 
 
