@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "git pull && node index.js"
+    "start" : "git pull && forever start index.js",
+    "stop" : "forever stop index.js",
+    "restart" : "git pull && forever restart index.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.1.3",
