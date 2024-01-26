@@ -1,0 +1,3 @@
+documents/*
+node_modules
+.env
