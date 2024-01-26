@@ -3,6 +3,8 @@
 
 The API documentation. each POST request accepts data in req.body.
 
+API : https://abuddyapi.glitch.me/
+
 
 ## API Reference
 
