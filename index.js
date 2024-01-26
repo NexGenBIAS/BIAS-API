@@ -63,7 +63,11 @@ app.post("/api/generate", (req, res) => {
 
     res.send({ success: true, data: "Assignment created successfully" });
   });
+  try {
   assignment.askQ(qs);
+  } catch(e) {
+    res.send({success : false, data : e.message})
+  }
 });
 
 app.post("/api/download", (req, res) => {
