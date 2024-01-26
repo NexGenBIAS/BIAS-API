@@ -67,6 +67,7 @@ class Generator {
   }
 
   askQ(qs) {
+    if(!subjects[this.subjectPrefix]) throw Error("ERROR :  Invalid subject prefix");
     console.log("Generating Answer...");
     this.AIStream = spawn("node", ["ai.mjs"]);
     this.AIStream.on("error", (e) => console.log(e));
