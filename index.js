@@ -79,16 +79,11 @@ app.post("/api/download", (req, res) => {
     return;
   });
 
-  let file = fs.readFileSync(path);
 
-  res.download(file);
-
+  res.download(path);
 
 
- /* res.writeHead(200, {
-    "Content-Type": 'application/octet-stream',
-    "Content-Disposition": "attachment; filename=" + "fileName"
-});
+ /*
 
   pdfFile.pipe(res);
   */
