@@ -78,6 +78,11 @@ app.post("/api/download", (req, res) => {
     res.send({ success: false, data: "Assignment does not exist" });
     return;
   });
+  res.writeHead(200, {
+    "Content-Type": 'application/octet-stream',
+    "Content-Disposition": "attachment; filename=" + "fileName"
+});
+
   pdfFile.pipe(res);
 });
 
