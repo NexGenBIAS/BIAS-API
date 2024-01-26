@@ -14,10 +14,24 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(function (req, res, next) {
+
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
+});
+
 const port = process.env.PORT;
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+ res.send("<h3> Assignment Buddy API <a href='https://github.com/ISenseAura/Assignment-Buddy-API/blob/main/README.md'> Documentation </a></h3>");
 });
 
 app.post("/api/generate", (req, res) => {
