@@ -1,14 +1,24 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const Generator = require("./generator");
-const fs = require("fs");
+dotenv.config();
+
+require("./globals");
 
 global.Tools = require("js-helpertools");
 let Tools = require("js-helpertools");
 
+const config = require("./config")
+global.config = config;
+
+const Generator = require("./generator");
+const fs = require("fs");
+
+
+
+
 
 const app = express();
-dotenv.config();
+
 
 app.use(express.json());
 
@@ -52,8 +62,15 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/generate", (req, res) => {
-  let { subject, number, qs, download } = req.body;
-  let assignment = new Generator(subject, number, (path) => {
+  let { subject, number, qs, download, username, authKey } = req.body;
+
+  if(!username) return res.send({success : false, data : "Invalid user session"})
+  if(!config.subjects[subject]) return res.send({success : false, data:"Invalid subject"});
+  if(typeof parseInt(number) != typeof 5) return res.send({success : false, data : "The number parameter must only contain numbers"})
+  if(typeof qs != typeof []) return res.send({success : false, data : "Invalid array of questions"});
+  if(!qs.length) return res.send({success : false, data : "Received empty array of questions"});
+
+  let assignment = new Generator(subject, number, (path,temp) => {
     if (path.startsWith("-")) return res.status(500).send({success:false, data:path});
     if (download) {
       let pdfFile = fs.createReadStream(path);
@@ -61,10 +78,10 @@ app.post("/api/generate", (req, res) => {
       return;
     }
 
-    res.send({ success: true, data: "Assignment created successfully" });
+    res.send({ success: true, data: "Assignment created successfully", temp : temp });
   });
   try {
-  assignment.askQ(qs);
+  assignment.askQ(qs,authKey,username);
   } catch(e) {
     res.send({success : false, data : e.message})
   }
