@@ -1,6 +1,6 @@
 /*
  *   This module is responsible for managing assigments, experiments, question banks of each subject and storing it in ``databases`` directory
- *   This file does NOT write pdf/md files, only JSON.
+ *   This module does NOT write pdf/md files, only JSON.
  */
 
 const fs = require("fs");

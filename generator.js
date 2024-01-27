@@ -41,7 +41,7 @@ let toPDF = async (path, cb, authKey,username) => {
     }
     
     fs.writeFileSync(path.replace(".md", ".pdf"), pdf.content);
-    fs.unlinkSync(path); 
+    if(!temp) fs.unlinkSync(path); 
   
     cb(path.replace(".md", ".pdf"),temp ? temp.replace(".md","") : temp);
     console.log("Done...")
