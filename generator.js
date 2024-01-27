@@ -80,6 +80,7 @@ class Generator {
   }
 
   askQ(qs,authKey,username) {
+ 
     if(!subjects[this.subjectPrefix]) throw Error("ERROR :  Invalid subject prefix");
     console.log("Generating Answer...");
     this.AIStream = spawn("node", ["ai.mjs"]);
@@ -99,7 +100,7 @@ class Generator {
       if (qs[this.c]) {
         this.AIStream.kill();
         this.AIStream = null;
-        this.askQ(qs);
+        this.askQ(qs,authKey,username);
       } else {
         this.readMeStream.write(` <i>${website} </i>`);
         this.readMeStream.end();

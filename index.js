@@ -127,7 +127,7 @@ app.get("/api/view/:subject/:number", (req, res) => {
   let path = `./documents/${subject}/${subject + number}.pdf`;
   let pdfFile = fs.createReadStream(path);
   pdfFile.on("error", (err) => {
-    res.send({ success: false, data: "Assignment does not exist" });
+    res.send({ success: false, data: "Assignment does not exist or has been deleted" });
     return;
   });
   //res.download(path);
