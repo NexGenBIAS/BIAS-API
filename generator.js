@@ -62,7 +62,7 @@ let heading = (title, number, type) => {
 };
 
 class Generator {
-  constructor(subject, number,type,  cb) {
+  constructor(subject, number,type, cb) {
     this.subject = subject ? subjects[subject] : "_";
     this.number = number;
     this.subjectPrefix = subject;

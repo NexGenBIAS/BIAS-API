@@ -17,6 +17,16 @@ All the JSON data related to each subject will be stored here.
             "path" : "./documents/bis/bis1.pdf",
             "uploadedBy" : "Mayur"
         }
+    ],
+    "experiments" : [
+        {
+            "number" : 1,
+            "givenOn" : Date,
+            "submissionDate" : null,
+            "aim" : aim,
+            "path" : "./documents/bis/bis1.pdf",
+            "uploadedBy" : "Mayur"
+        }
     ]
 }
 ```
