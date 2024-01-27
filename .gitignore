@@ -4,3 +4,6 @@ databases/*
 !databases/README.md
 node_modules
 .env
+analyse.js
+chatgptConfig.js
+contexts.js
