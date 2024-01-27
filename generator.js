@@ -4,6 +4,7 @@ let { spawn } = require("child_process");
 const { mdToPdf } = require("md-to-pdf");
 const { mkdir } = require("fs").promises;
 
+
 let subjects = {
   bis: "Business Intelligence System",
   cns: "Cryptography Network Security",
@@ -26,7 +27,7 @@ Object.keys(subjects).forEach(async (sub) => {
   }
 });
 
-let toPDF = async (path, cb,authKey,username) => {
+let toPDF = async (path, cb, authKey,username) => {
   const pdf = await mdToPdf({ path: path }).catch(console.error);
 
   let temp = false;
@@ -40,6 +41,8 @@ let toPDF = async (path, cb,authKey,username) => {
     }
     
     fs.writeFileSync(path.replace(".md", ".pdf"), pdf.content);
+    fs.unlinkSync(path); 
+  
     cb(path.replace(".md", ".pdf"),temp ? temp.replace(".md","") : temp);
     console.log("Done...")
   } else {
@@ -53,17 +56,18 @@ function Datify() {
 
 //console.log(Datify());
 
-let heading = (title, number) => {
-  let text = `<span style='color:red'><i> (${note}) </i> <br> <span style="color:green;"> </span> </span> \n \n # Assignment ${number}\n **Class** : CSE TY <br>**Subject** : ${title} <br>**Generated On** : ${Datify()}  \n <hr> \n\n`;
+let heading = (title, number, type) => {
+  let text = `<span style='color:red'><i> (${note}) </i> <br> <span style="color:green;"> </span> </span> \n \n # ${type} ${number}\n **Class** : CSE TY <br>**Subject** : ${title} <br>**Generated On** : ${Datify()}  \n <hr> \n\n`;
   return text;
 };
 
 class Generator {
-  constructor(subject, number, cb) {
+  constructor(subject, number,type,  cb) {
     this.subject = subject ? subjects[subject] : "_";
     this.number = number;
     this.subjectPrefix = subject;
     this.year = 3;
+    this.type = type ?  type : "Assignment"
     // this.extra = extra ? extra : "BTech";
     this.c = 0;
     this.path = `./documents/${this.subjectPrefix}/${
@@ -71,7 +75,7 @@ class Generator {
     }.md`;
 
     this.readMeStream = fs.createWriteStream(this.path);
-    this.readMeStream.write(heading(this.subject, this.number));
+    this.readMeStream.write(heading(this.subject, this.number, this.type));
     this.callback = cb;
   }
 
@@ -100,6 +104,7 @@ class Generator {
         this.readMeStream.write(` <i>${website} </i>`);
         this.readMeStream.end();
         console.log("Converting to PDF...");
+
         toPDF(this.path, this.callback,authKey,username);
       }
     });

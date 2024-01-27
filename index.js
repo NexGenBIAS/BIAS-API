@@ -13,6 +13,8 @@ global.config = config;
 const Generator = require("./generator");
 const fs = require("fs");
 
+const { SubjectManager } = require("./manager")
+
 
 
 
@@ -62,7 +64,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/generate", (req, res) => {
-  let { subject, number, qs, download, username, authKey } = req.body;
+  let { subject, number, qs, download, username, authKey, type } = req.body;
 
   if(!username) return res.send({success : false, data : "Invalid user session"})
   if(!config.subjects[subject]) return res.send({success : false, data:"Invalid subject"});
@@ -70,12 +72,18 @@ app.post("/api/generate", (req, res) => {
   if(typeof qs != typeof []) return res.send({success : false, data : "Invalid array of questions"});
   if(!qs.length) return res.send({success : false, data : "Received empty array of questions"});
 
-  let assignment = new Generator(subject, number, (path,temp) => {
+  let assignment = new Generator(subject, number,type, (path,temp) => {
     if (path.startsWith("-")) return res.status(500).send({success:false, data:path});
     if (download) {
       let pdfFile = fs.createReadStream(path);
       pdfFile.pipe(res);
       return;
+    }
+
+    if(config.hasAccess(authKey,username)) {
+      let manager = new SubjectManager(subject);
+      manager.addAssignment(qs,number,false,false,username);
+      delete manager;
     }
 
     res.send({ success: true, data: "Assignment created successfully", temp : temp });
@@ -98,6 +106,19 @@ app.get("/api/download/:subject/:number", (req, res) => {
   });
   res.download(path);
  // pdfFile.pipe(res);
+  
+});
+
+app.get("/api/details/:subject", (req, res) => {
+  let { subject } = req.params;
+  if(!config.subjects[subject]) return res.send({success:false, data : "Invalid subject"})
+  let details = new SubjectManager(subject);
+
+  res.send({success : true, data : details})
+  delete details;
+  console.log(details);
+
+  // pdfFile.pipe(res);
   
 });
 
