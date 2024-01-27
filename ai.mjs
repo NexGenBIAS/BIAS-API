@@ -10,7 +10,7 @@ const genAI = new GoogleGenerativeAI(process.env.AI_KEY);
 async function run(query, context) {
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-  const prompt = context ? query + " [Context = " + "computer science" + "]" : query;
+  const prompt = context ? query + " [Context = " + "computer science" + "]" : query + " [Context = " + "computer science" + "]";
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
