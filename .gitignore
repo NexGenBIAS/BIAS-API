@@ -1,4 +1,6 @@
 documents/*
 !documents/README.md
+databases/*
+!databases/README.md
 node_modules
 .env
