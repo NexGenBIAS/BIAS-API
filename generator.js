@@ -88,7 +88,7 @@ class Generator {
       ` \n\n #### Q${this.c + 1}. ${qs[this.c]} \n\n #### Ans. <br> \n`
     );
     this.AIStream.stderr.on("data", (err) => console.log(err.toString()));
-    this.AIStream.stdin.write("-" + qs[this.c]);
+    this.AIStream.stdin.write("-" + qs[this.c] + ",in " + this.subject);
 
     this.AIStream.stdout.on("data", (data) => {
       this.readMeStream.write(data);
