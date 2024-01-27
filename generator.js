@@ -26,12 +26,21 @@ Object.keys(subjects).forEach(async (sub) => {
   }
 });
 
-let toPDF = async (path, cb) => {
+let toPDF = async (path, cb,authKey,username) => {
   const pdf = await mdToPdf({ path: path }).catch(console.error);
 
+  let temp = false;
   if (pdf) {
+    if(!config.hasAccess(authKey,username)) {
+      temp = "-temp" + Date.now() + ".md";
+      path = path.replace(".md",temp)
+      setTimeout(() => {
+       if(path.includes("temp")) fs.unlinkSync(path.replace(".md",".pdf"))
+      }, config.fileDeleteDelay * 1000);
+    }
+    
     fs.writeFileSync(path.replace(".md", ".pdf"), pdf.content);
-    cb(path.replace(".md", ".pdf"));
+    cb(path.replace(".md", ".pdf"),temp ? temp.replace(".md","") : temp);
     console.log("Done...")
   } else {
     cb("-Error could not write PDF");
@@ -66,7 +75,7 @@ class Generator {
     this.callback = cb;
   }
 
-  askQ(qs) {
+  askQ(qs,authKey,username) {
     if(!subjects[this.subjectPrefix]) throw Error("ERROR :  Invalid subject prefix");
     console.log("Generating Answer...");
     this.AIStream = spawn("node", ["ai.mjs"]);
@@ -91,7 +100,7 @@ class Generator {
         this.readMeStream.write(` <i>${website} </i>`);
         this.readMeStream.end();
         console.log("Converting to PDF...");
-        toPDF(this.path, this.callback);
+        toPDF(this.path, this.callback,authKey,username);
       }
     });
   }
