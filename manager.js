@@ -121,4 +121,16 @@ class SubjectManager {
 }
 
 
+
 exports.SubjectManager = SubjectManager;
+exports.cleanUp = function() {
+  Object.keys(config.subjects).forEach((dir) => {
+    let oneDir = fs.readdirSync("./documents/" + dir);
+    oneDir.forEach((file) => {
+      if(file.includes("temp")) fs.unlinkSync("./documents/" + dir + "/" + file)
+    })
+  })
+  console.log("Cleaning done");
+}
+
+//console.log(this.cleanUp())
